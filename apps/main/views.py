@@ -1,13 +1,16 @@
 from django.shortcuts import render
-from .models import Emprestimos
+from .models import Emprestimos, Pagamentos
 
 def photo_wall(request):
-  # emprestimos = Emprestimos.objects.all()
-  emprestimos = Emprestimos.objects.filter(juros_mensal=0.02, saldo_atual = 1200)
-  print(emprestimos)
-  emprestimo = Emprestimos.objects.get(id=2)
-  print(emprestimo)
-  return render(request, 'photowall.html', {'photos': []})
+  emprestimos = Emprestimos.objects.all()
+  pagamentos = Pagamentos.objects.all()
+
+  context = {
+    'emprestimos': emprestimos,
+    'pagamentos': pagamentos
+  }
+
+  return render(request, 'index.html', context)
 
 
 
