@@ -1,23 +1,24 @@
 from core.services import GSpreadModel
+from datetime import datetime
 
 class Emprestimos(GSpreadModel):
+    id = int
+    codigo = str
+    valor_emprestado = float
+    saldo_atual = float
+    juros_mensal = float
+    total_pago = float
 
-
-    def adicionar_emprestimo(self, nome, livro, data):
-        self.emprestimos.add_row([nome, livro, data])
-
-    def buscar_emprestimos(self):
-        return self.emprestimos.get_all_values()
-    
-    class Meta:
-        db_table = 'emprestimos'
-    
-class Pagamentos(GSpreadModel):
     def __init__(self):
-        self.emprestimos = GSpreadModel(sheet_name="emprestimos")
+        self.worksheet_name = "emprestimos"
+        super().__init__()
 
-    def adicionar_emprestimo(self, nome, livro, data):
-        self.emprestimos.add_row([nome, livro, data])
+class Pagamentos(GSpreadModel):
+    id = int
+    emprestimo_id = int
+    valor_pagamento = float
+    data_pagamento = datetime
 
-    def buscar_emprestimos(self):
-        return self.emprestimos.get_all_values()
+    def __init__(self):
+        self.worksheet_name = "pagamentos"
+        super().__init__()
