@@ -5,4 +5,3 @@ core/.env
 core/__pycache__/
 apps/main/__pycache__/
 apps/main/migrations/
-core/staticfiles/admin/
