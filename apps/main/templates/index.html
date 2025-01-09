@@ -1,4 +1,5 @@
 {% extends "main.html" %}
+{% load static %}
 
 {% block statics %}
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
@@ -10,33 +11,10 @@
 
 
 {% block content %}
-    <!-- Barra de navegação e menu lateral -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <span class="navbar-brand">Site de Empréstimos</span>
-    </nav>
-
-    <!-- Menu lateral -->
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
-        <div class="offcanvas-header">
-            <h5 id="offcanvasMenuLabel">Menu</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <ul class="list-unstyled">
-                <li><a href="#" class="text-decoration-none"><i class="fas fa-home"></i> Página Inicial</a></li>
-                <li><a href="#" class="text-decoration-none"><i class="fas fa-phone-alt"></i> Contato</a></li>
-                <li><a href="#" class="text-decoration-none"><i class="fas fa-info-circle"></i> Sobre</a></li>
-            </ul>
-        </div>
-    </div>
-
     <!-- Seção Hero -->
     <div class="hero-section">
         <h1>Pesquise seu Código de Empréstimo</h1>
-        <input type="text" class="form-control input-search" placeholder="Digite o código do empréstimo...">
+        <input type="text" class="form-control input-search rounded-pill" placeholder="Digite o código do empréstimo...">
         <button class="btn btn-primary btn-search mt-3">Pesquisar</button>
         
         <!-- Lista de Pesquisas Anteriores -->
@@ -50,9 +28,4 @@
             </ul>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 Site de Empréstimos | Desenvolvido por Ian Rodrigues (@ianroddrs)</p>
-    </footer>
 {% endblock %}

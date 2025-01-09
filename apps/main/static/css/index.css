@@ -13,10 +13,12 @@
     height: 50px;
     font-size: 18px;
 }
+
 .btn-search {
     font-size: 18px;
     padding: 10px 20px;
 }
+
 .history-list {
     margin-top: 30px;
     text-align: left;
