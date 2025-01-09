@@ -1,16 +1,19 @@
 from django.shortcuts import render
 from .models import Emprestimos, Pagamentos
 
-def photo_wall(request):
-  emprestimos = Emprestimos.objects.all()
-  pagamentos = Pagamentos.objects.all()
+def home(request):
+   return render(request, 'index.html')
 
-  context = {
-    'emprestimos': emprestimos,
-    'pagamentos': pagamentos
-  }
+# def photo_wall(request):
+#   emprestimos = Emprestimos.objects.all()
+#   pagamentos = Pagamentos.objects.all()
 
-  return render(request, 'index.html', context)
+#   context = {
+#     'emprestimos': emprestimos,
+#     'pagamentos': pagamentos
+#   }
+
+#   return render(request, 'index.html', context)
 
 
 

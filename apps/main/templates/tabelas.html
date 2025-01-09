@@ -1,0 +1,89 @@
+<!-- <nav>
+    <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#modal-pagamento">Adicionar Pagamento</button>
+</nav>
+
+<div class="modal fade" id="modal-pagamento" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="modal-pagamentoLabel">Adicionar Pagamento</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="" method="get">
+            <div class="mb-3">
+                <label for="emprestimo_id" class="form-label">ID do emprestimo</label>
+                <select name="" id="emprestimo_id" name="emprestimo_id" class="form-select">
+                    {% for emprestimo in emprestimos %}
+                        <option value="{{emprestimo.id}}">{{emprestimo.codigo_identidade}} -  {{emprestimo.nome_pessoa}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="valor_pagamento" class="form-label">Valor do pagamento</label>
+                <input type="number" class="form-control" id="valor_pagamento" name="valor_pagamento">
+            </div>
+            <div class="mb-3">
+                <label for="data_pagamento" class="form-label">Data do pagamento</label>
+                <input type="date" class="form-control" id="data_pagamento" name="data_pagamento">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-success">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<hr>
+<h2>Tabela de emprestimos</h2>
+<table class="table table-hover" style="border-radius: 15px; overflow: hidden;">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Código Identidade</th>
+            <th scope="col">Nome Pessoa</th>
+            <th scope="col">Valor Emprestado</th>
+            <th scope="col">Saldo Atual</th>
+            <th scope="col">Juros Mensal</th>
+            <th scope="col">Total Pago</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for emprestimo in emprestimos %}
+            <tr>
+                <td>{{ emprestimo.id }}</td>
+                <td>{{ emprestimo.codigo_identidade }}</td>
+                <td>{{ emprestimo.nome_pessoa }}</td>
+                <td>{{ emprestimo.valor_emprestado }}</td>
+                <td>{{ emprestimo.saldo_atual }}</td>
+                <td>{{ emprestimo.juros_mensal }}</td>
+                <td>{{ emprestimo.total_pago }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<hr>
+<h2>Tabela de pagamentos</h2>
+<table class="table table-hover" style="border-radius: 15px; overflow: hidden;">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">ID Emprestimo</th>
+            <th scope="col">Valor Pago</th>
+            <th scope="col">Data Pagamento</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pagamento in pagamentos %}
+            <tr>
+                <td>{{ pagamento.id }}</td>
+                <td>{{ pagamento.emprestimo_id }}</td>
+                <td>{{ pagamento.valor_pagamento }}</td>
+                <td>{{ pagamento.data_pagamento }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table> -->

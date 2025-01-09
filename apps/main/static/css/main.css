@@ -1,4 +1,11 @@
-body{
-    background-color: #313d51;
-    color: rgb(78, 81, 126);
+body {
+    background-color: #f4f4f4;
+    height: 100vh;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: white;
 }
