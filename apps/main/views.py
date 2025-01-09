@@ -1,9 +1,33 @@
 from django.shortcuts import render
-from ...core.services import get_all_rows
+from .models import Emprestimos, Pagamentos
 
 def photo_wall(request):
-  photos = get_all_rows("emprestimos")
-  return render(request, 'photowall.html', {'photos': photos})
+  emprestimos = Emprestimos.objects.all()
+  pagamentos = Pagamentos.objects.all()
+
+  context = {
+    'emprestimos': emprestimos,
+    'pagamentos': pagamentos
+  }
+
+  return render(request, 'index.html', context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def emp():
   # Dados iniciais

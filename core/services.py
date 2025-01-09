@@ -2,6 +2,7 @@ import os
 import gspread
 from typing import List, Dict, Any
 from django.conf import settings
+from abc import ABC, ABCMeta
 
 def initialize_gspread() -> gspread.client.Client:
   """
@@ -27,74 +28,61 @@ def get_credentials() -> dict:
     "universe_domain": os.getenv("UNIVERSE_DOMAIN")
   }
 
-class GSpreadModel():
-  def __init__(self, sheet_name: str, worksheet_name: str = None):
-    """
-    Inicializa a classe Emprestimos com acesso à planilha e worksheet.
-    """
-    self.client = settings.GSPREAD_CLIENT
-    self.sheet = self.client.open(sheet_name)
-    self.worksheet = self.sheet.get_worksheet(0) if worksheet_name is None else self.sheet.worksheet(worksheet_name)
+class GSpreadModelBaseManager:
+  def __init__(self, model_class):
+      self.model_class = model_class
 
-  def using(self, name: str):
+  def all(self) -> List[Dict[str, Any]]:
+      """
+      Retorna todos os registros da planilha associados ao modelo.
+      """
+      instance = self.model_class()
+      return instance.worksheet.get_all_records()
+  
+  def get(self, **kwargs) -> Dict[str, Any]:
     """
-    Muda a aba atual (worksheet).
+    Retorna um registro que atende aos critérios especificados.
     """
-    self.worksheet = self.sheet.worksheet(name)
+    all_records = self.all()
+    for record in all_records:
+      if all(record.get(k) == v for k, v in kwargs.items()):
+        return record
+    return None
+  
+  def filter(self, **kwargs) -> List[Dict[str, Any]]:
+    """
+    Retorna registros que atendem aos critérios especificados.
+    """
+    all_records = self.all()
+    return [record for record in all_records if all(record.get(k) == v for k, v in kwargs.items())]
+  
+class GSpreadModelMeta(ABCMeta, type):
+  """
+  Metaclass para configurar automaticamente o `objects` para as classes filhas.
+  """
+  def __new__(cls, name, bases, attrs):
+      # A classe é criada e agora o manager é atribuído automaticamente
+      new_class = super().__new__(cls, name, bases, attrs)
+      
+      # Atribui automaticamente o manager `objects` para a classe filha
+      new_class.objects = GSpreadModelBaseManager(new_class)
+      
+      return new_class
 
-  def get_line(self, num: int) -> List[str]:
-    """
-    Retorna os valores de uma linha específica.
-    """
-    return self.worksheet.row_values(num)
+class GSpreadModel(ABC,metaclass=GSpreadModelMeta):
+  dt_name = 'emprestimos'
+  worksheet_name = None
+  objects = None
 
-  def get_col(self, num: int) -> List[str]:
-    """
-    Retorna os valores de uma coluna específica.
-    """
-    return self.worksheet.col_values(num)
+  def __init__(self):
+    self.sheet = settings.GSPREAD_CLIENT.open(self.dt_name)
+    self.worksheet = self.sheet.worksheet(self.worksheet_name)
 
-  def get_cell(self, line: int, col: int) -> str:
-    """
-    Retorna o valor de uma célula específica.
-    """
-    return self.worksheet.cell(line, col).value
-
-  def get_all_values(self) -> List[Dict[str, Any]]:
-    """
-    Retorna todas as linhas como uma lista de dicionários.
-    """
-    return self.worksheet.get_all_records()
-
-  def add_row(self, data: List[Any]):
-    """
-    Adiciona uma nova linha com os valores fornecidos.
-    """
-    self.worksheet.append_row(data)
-
-  def update_cell(self, line: int, col: int, value: Any):
-    """
-    Atualiza o valor de uma célula específica.
-    """
-    self.worksheet.update_cell(line, col, value)
-
-  def update_row(self, row_num: int, data: List[Any]):
-    """
-    Atualiza uma linha inteira com os valores fornecidos.
-    """
-    for col_num, value in enumerate(data, start=1):
-        self.worksheet.update_cell(row_num, col_num, value)
-
-  def delete_row(self, row_num: int):
-    """
-    Exclui uma linha específica da planilha.
-    """
-    self.worksheet.delete_row(row_num)
-
-  def search(self, query: str, column: int) -> List[Dict[str, Any]]:
-    """
-    Busca registros em uma coluna específica que correspondam ao valor.
-    """
-    records = self.get_all_values()
-    results = [record for record in records if record[list(record.keys())[column - 1]] == query]
-    return results
+  @classmethod
+  def _get_attrs(cls) -> List[str]:
+    # Lista os atributos definidos apenas na classe filha
+    return [
+        attr for attr in cls.__dict__.keys()
+        if not attr.startswith("_") and callable(getattr(cls, attr, None))
+    ]
+  
