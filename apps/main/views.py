@@ -4,16 +4,33 @@ from .models import Emprestimos, Pagamentos
 def home(request):
    return render(request, 'index.html')
 
-# def photo_wall(request):
-#   emprestimos = Emprestimos.objects.all()
-#   pagamentos = Pagamentos.objects.all()
+def tables(request):
+    emprestimos = Emprestimos.objects.all()
+    pagamentos = Pagamentos.objects.all()
 
-#   context = {
-#     'emprestimos': emprestimos,
-#     'pagamentos': pagamentos
-#   }
+    total_emprestado = 0
+    saldo_total = 0 
+    total_pago = 0
 
-#   return render(request, 'index.html', context)
+    for emprestimo in emprestimos:
+        total_emprestado += float(emprestimo['valor_emprestado'])
+        saldo_total += float(emprestimo['saldo_atual'])
+        total_pago += float(emprestimo['total_pago'])
+
+        emprestimo['valor_emprestado'] = f'R$ {emprestimo["valor_emprestado"]:.2f}'
+        emprestimo['saldo_atual'] = f'R$ {emprestimo["saldo_atual"]:.2f}'
+        emprestimo['juros_mensal'] = f'{float(emprestimo["juros_mensal"])*100:.2f}%'
+        emprestimo['total_pago'] = f'R$ {emprestimo["total_pago"]:.2f}'
+
+    context = {
+        'emprestimos': emprestimos,
+        'pagamentos': pagamentos,
+        'total_emprestado': f'{total_emprestado:.2f}',
+        'saldo_total': f'{saldo_total:.2f}',
+        'total_pago': f'{total_pago:.2f}'
+    }
+
+    return render(request, 'tabelas.html', context)
 
 
 
@@ -58,6 +75,6 @@ def emp():
           pagamento: ${pagamento:.2f}
           juros (1,65%): ${valor_juros:.2f}
           saldo restante: ${saldo:.2f}
-          total pago: ${total_pago:.2f}
+          total pago: ${total_pago}
       """
       print(texto)
