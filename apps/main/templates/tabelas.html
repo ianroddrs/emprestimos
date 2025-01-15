@@ -12,17 +12,21 @@
 
 <hr>
 <div class="d-flex flex-row justify-content-between">
-    <span class="text-white">
+    <span class="text-danger">
         <h5>Total Emprestado</h5>
         <h1>R$ {{ total_emprestado }}</h1>
     </span>
     <span class="text-white">
-        <h5>Total Pago</h5>
+        <h5>Total Devolvido</h5>
         <h1>R$ {{ total_pago }}</h1>
     </span>
-    <span class="text-white">
-        <h5>Saldo Atual Total</h5>
+    <span class="text-warning">
+        <h5>Saldo Total</h5>
         <h1>R$ {{ saldo_total }}</h1>
+    </span>
+    <span class="text-success">
+        <h5>Lucro Total</h5>
+        <h1>R$ {{ lucro }}</h1>
     </span>
 </div>
 <h2>Tabela de emprestimos</h2>

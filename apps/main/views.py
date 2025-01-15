@@ -27,7 +27,8 @@ def tables(request):
         'pagamentos': pagamentos,
         'total_emprestado': f'{total_emprestado:.2f}',
         'saldo_total': f'{saldo_total:.2f}',
-        'total_pago': f'{total_pago:.2f}'
+        'total_pago': f'{total_pago:.2f}',
+        'lucro': f'{saldo_total - (total_emprestado - total_pago):.2f}'
     }
 
     return render(request, 'tabelas.html', context)
